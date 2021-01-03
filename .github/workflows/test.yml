@@ -22,7 +22,8 @@ jobs:
             run: |
                 mkdir /tmp/aha
                 target/release/fuse-ci-test /tmp/aha --auto_unmount &
-                mount | grep hello
+                sleep 1
+                (mount | grep /tmp/aha) || echo Not found
                 ls -alF /tmp/aha
                 ls -Z /tmp/aha
                 cat /tmp/aha/hello.txt

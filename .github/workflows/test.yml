@@ -6,6 +6,28 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
+          - uses: actions/checkout@v2
+
+          - name: Build packages
+            uses: icepuma/rust-action@master
+            with:
+                args: cargo build --release
+
           - name: Detect /dev/fuse
             run: |
                 ls -alF /dev/fuse
+
+          - name: Test mount
+            run: |
+                mkdir /tmp/aha
+                target/release/fuse-ci-test /tmp/aha --auto_unmount
+                ls -alF /tmp/aha
+                ls -Z /tmp/aha
+                cat /tmp/aha/hello.txt
+
+          - name: Upload binary file
+            uses: actions/upload-artifact@v2
+            with:
+                name: Binary
+                path: |
+                    target/release/fuse-ci-test

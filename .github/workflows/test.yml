@@ -10,9 +10,10 @@ jobs:
 
           - name: Build packages
             uses: rust:alpine
-            run: |
-                apk add fuse3-dev pkgconfig
-                cargo build --release
+            with:
+                entrypoint: /bin/sh
+                args: |
+                    apk add fuse3-dev pkgconfig && cargo build --release
 
           - name: Detect /dev/fuse
             run: |

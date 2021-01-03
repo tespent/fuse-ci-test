@@ -9,11 +9,10 @@ jobs:
           - uses: actions/checkout@v2
 
           - name: Build packages
-            uses: rust:alpine
+            uses: icepuma/rust-action@master
             with:
-                entrypoint: /bin/sh
                 args: |
-                    apk add fuse3-dev pkgconfig && cargo build --release
+                    apt update && apt install -y libfuse-dev pkg-config && cargo build --release
 
           - name: Detect /dev/fuse
             run: |

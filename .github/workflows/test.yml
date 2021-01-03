@@ -21,10 +21,12 @@ jobs:
           - name: Test mount
             run: |
                 mkdir /tmp/aha
-                target/release/fuse-ci-test /tmp/aha --auto_unmount
+                target/release/fuse-ci-test /tmp/aha --auto_unmount &
+                mount
                 ls -alF /tmp/aha
                 ls -Z /tmp/aha
                 cat /tmp/aha/hello.txt
+                umount /tmp/aha
 
           - name: Upload binary file
             uses: actions/upload-artifact@v2
